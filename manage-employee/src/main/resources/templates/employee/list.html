@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee List</title>
+</head>
+<body>
+<h1>Employee List</h1>
+
+<form th:action="@{/employees}" method="get">
+    <input type="text" name="keyword" th:value="${keyword}" placeholder="Search by name or department"/>
+    <select name="sortField">
+        <option value="" th:selected="${sortField == null}">Sort By</option>
+        <option value="name" th:selected="${sortField == 'name'}">Name</option>
+        <option value="department" th:selected="${sortField == 'department'}">Department</option>
+    </select>
+    <button type="submit">Search</button>
+</form>
+
+<a th:href="@{/employees/new}">Add New Employee</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Job Title</th>
+        <th>Department</th>
+        <th>Phone Number</th>
+        <th>Salary</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee : ${listEmployees}">
+        <td th:text="${employee.name}">Name</td>
+        <td th:text="${employee.email}">Email</td>
+        <td th:text="${employee.jobTitle}">Job Title</td>
+        <td th:text="${employee.department}">Department</td>
+        <td th:text="${employee.phoneNumber}">Phone Number</td>
+        <td th:text="${employee.salary}">Salary</td>
+        <td>
+            <a th:href="@{'/employees/edit/' + ${employee.id}}">Edit</a> |
+            <a th:href="@{'/employees/delete/' + ${employee.id}}" onclick="return confirm('Are you sure?');">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
