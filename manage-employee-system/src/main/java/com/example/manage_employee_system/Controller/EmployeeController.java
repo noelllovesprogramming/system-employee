@@ -36,7 +36,7 @@ public class EmployeeController {
         return "employee/form";
     }
 
-    @PostMapping
+    @PostMapping("/new")
     public String save(@Valid @ModelAttribute EmployeeModel employee, BindingResult result) {
         if (result.hasErrors()) return "employee/form";
         service.save(employee);
@@ -46,7 +46,13 @@ public class EmployeeController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
         model.addAttribute("employee", service.get(id));
-        return "employee/form";
+        return "employee/edit";
+    }
+    @PostMapping("/edit")
+    public String edit(@Valid @ModelAttribute EmployeeModel employee, BindingResult result) {
+        if (result.hasErrors()) return "employee/edit";
+        service.save(employee);
+        return "redirect:/employees/";
     }
 
     @GetMapping("/delete/{id}")
