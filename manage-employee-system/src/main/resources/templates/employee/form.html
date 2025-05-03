@@ -7,9 +7,7 @@
 </head>
 <body>
 <div class="container">
-    <form th:action="@{/new}" method="post"  th:object="employee">
-        <input type="text" class="form-control" name="id" aria-describedby="emailHelp">
-
+    <form th:action="@{/new}" method="post" th:object="${employee}">
         <div class="mb-3">
             <label for="exampleInputText" class="form-label">First Name</label>
             <input type="text" class="form-control" name="firstName" id="exampleInputText" aria-describedby="emailHelp">
@@ -18,9 +16,9 @@
             <label for="exampleInputPassword1" class="form-label">Second Name</label>
             <input type="text" class="form-control" name="lastName" id="exampleInputPassword1">
         </div>
-        <div class="mb-3 form-check">
-            <label class="form-check-label" for="exampleCheck1">Email</label>
-            <input type="email" class="form-check-input"  name="email" id="exampleCheck1">
+        <div class="mb-3">
+            <label class="form-label" for="email">Email</label>
+            <input type="text" class="form-control" name="email" id="email">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
