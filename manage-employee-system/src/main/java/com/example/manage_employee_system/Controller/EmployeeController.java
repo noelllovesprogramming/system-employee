@@ -11,14 +11,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/employees")
 public class EmployeeController {
     @Autowired
     private EmployeeService service;
 
-    @GetMapping
+    @GetMapping("/")
     public String list(@RequestParam(defaultValue = "0") int page,
-                       @RequestParam(defaultValue = "") String keyword,
+                        @RequestParam(defaultValue = "") String keyword,
                        Model model) {
         Page<EmployeeModel> employees = keyword.isEmpty()
                 ? service.getPaginatedEmployees(page, 5)
@@ -26,6 +25,7 @@ public class EmployeeController {
 
         model.addAttribute("employees", employees);
         model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", employees.getTotalPages());
         model.addAttribute("keyword", keyword);
         return "employee/list";
     }
@@ -36,22 +36,28 @@ public class EmployeeController {
         return "employee/form";
     }
 
-    @PostMapping
+    @PostMapping("/new")
     public String save(@Valid @ModelAttribute EmployeeModel employee, BindingResult result) {
         if (result.hasErrors()) return "employee/form";
         service.save(employee);
-        return "redirect:/employees";
+        return "redirect:/";
     }
 
     @GetMapping("/edit/{id}")//route for editing
     public String edit(@PathVariable Long id, Model model) {
         model.addAttribute("employee", service.get(id));
-        return "employee/form";
+        return "employee/edit";
+    }
+    @PostMapping("/edit/")
+    public String edit(@Valid @ModelAttribute EmployeeModel employee, BindingResult result) {
+        if (result.hasErrors()) return "employee/edit";
+        service.save(employee);
+        return "redirect:/";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         service.delete(id);
-        return "redirect:/employees";
+        return "redirect:/";
     }
 }
