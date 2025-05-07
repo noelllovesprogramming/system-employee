@@ -43,7 +43,7 @@ public class EmployeeController {
         return "redirect:/employees";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/edit/{id}")//route for editing
     public String edit(@PathVariable Long id, Model model) {
         model.addAttribute("employee", service.get(id));
         return "employee/form";
